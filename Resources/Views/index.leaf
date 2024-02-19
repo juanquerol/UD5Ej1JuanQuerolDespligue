@@ -1,12 +1,21 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-
-  <title>#(title)</title>
+    <title>Detalles del Vehículo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-
-<body>
-  <h1>#(title)</h1>
+<body class="">
+    <div class="container ">
+        <h2>Detalles del Vehículo</h2>
+        <ul class="list-group bg-dark">
+            <li class="list-group-item bg-primary text-white">ID: #(vehicle.id)</li>
+            <li class="list-group-item bg-primary text-white">Marca: #(vehicle.marca)</li>
+            <li class="list-group-item bg-primary text-white">Modelo: #(vehicle.modelo)</li>
+            <li class="list-group-item bg-primary text-white">Número de Ruedas: #(vehicle.numeroRuedas)</li>
+            <li class="list-group-item bg-primary text-white">Tipo de Combustible: #(vehicle.tipoCombustible)</li>
+        
+            <li class="list-group-item bg-primary text-white">Tamaño de Pantalla: #(vehicle.tamanoPantalla)</li>
+        </ul>
+    </div>
 </body>
 </html>
