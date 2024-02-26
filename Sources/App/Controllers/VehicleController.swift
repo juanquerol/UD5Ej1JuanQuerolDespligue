@@ -1,8 +1,7 @@
 import Fluent
 import Vapor
 
-import Fluent
-import Vapor
+
 
 struct VehicleController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {

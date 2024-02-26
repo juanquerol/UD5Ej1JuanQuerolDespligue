@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Detalles de Vehículos</title>
 </head>
 <body>
     <div class="container">
+    
         <h1 class="my-4">#(vehicle.marca) #(vehicle.modelo)</h1>
+        <p class="lead">Id: #(vehicle.id)</p>
         <p class="lead">Numero de ruedas: #(vehicle.numeroRuedas)</p>
         <p class="lead">Tipo de combustible: #(vehicle.tipoCombustible)</p>
-        <p class="lead">Pantalla central: #(vehicle.pantallaCentral ? "Sí" : "No")</p>
-        <p class="lead">Tamaño de pantalla: #(vehicle.tamanoPantalla)</p>
+        
+        #if(vehicle.pantallaCentral):
+            <p class="lead">Pantalla central: Si</p>
+            <p class="lead">Tamaño de pantalla: #(vehicle.tamanoPantalla)</p>
+        
+        #else:
+            <p class="lead">Pantalla central: No</p>
+        #endif
+        
+        
     </div>
 </body>
 </html>
