@@ -1,28 +1,28 @@
 import Fluent
 import Vapor
 
-final class Vehicle: modelo, Content {
+final class Vehicle: Model, Content {
     static let schema = "vehicles"
 
     @ID(key: .id)
     var id: UUID?
 
-    @Field(key: "brand")
-    var brand: String
+    @Field(key: "marca")
+    var marca: String
 
     @Field(key: "modelo")
     var modelo: String
 
-    @Field(key: "wheel_number")
+    @Field(key: "numeroRuedas")
     var numeroRuedas: Int
 
-    @Field(key: "fuel_type")
+    @Field(key: "tipoCombustible")
     var tipoCombustible: String
 
-    @Field(key: "has_central_screen")
+    @Field(key: "pantallaCentral")
     var pantallaCentral: Bool
 
-    @Field(key: "screen_size")
+    @Field(key: "tamanoPantalla")
     var tamanoPantalla: Double
 
     init() { }

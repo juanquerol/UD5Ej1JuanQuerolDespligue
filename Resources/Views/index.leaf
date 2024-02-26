@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Detalles del Vehículo</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="">
-    <div class="container ">
-        <h2>Detalles del Vehículo</h2>
-        <ul class="list-group bg-dark">
-            <li class="list-group-item bg-primary text-white">ID: #(vehicle.id)</li>
-            <li class="list-group-item bg-primary text-white">Marca: #(vehicle.marca)</li>
-            <li class="list-group-item bg-primary text-white">Modelo: #(vehicle.modelo)</li>
-            <li class="list-group-item bg-primary text-white">Número de Ruedas: #(vehicle.numeroRuedas)</li>
-            <li class="list-group-item bg-primary text-white">Tipo de Combustible: #(vehicle.tipoCombustible)</li>
-        
-            <li class="list-group-item bg-primary text-white">Tamaño de Pantalla: #(vehicle.tamanoPantalla)</li>
-        </ul>
+<body>
+    <div class="container">
+        <h1 class="my-4">Vehículos</h1>
+        #each(vehicles) { vehicle in
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="#(vehicle.id)">#(vehicle.marca) #(vehicle.modelo)</a></h2>
+                </div>
+            </div>
+        }
     </div>
 </body>
 </html>

@@ -1,6 +1,9 @@
 import Fluent
 import Vapor
 
+import Fluent
+import Vapor
+
 struct VehicleController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let vehicles = routes.grouped("vehicles")
@@ -13,39 +16,48 @@ struct VehicleController: RouteCollection {
         }
     }
 
-    func index(req: Request) throws -> EventLoopFuture<[Vehicle]> {
-        return Vehicle.query(on: req.db).all()
+    func index(req: Request) async throws -> View {
+        let vehicles = try await Vehicle.query(on: req.db).all()
+        return try await req.view.render("index", ["vehicles": vehicles])
     }
+    
 
-    func create(req: Request) throws -> EventLoopFuture<Vehicle> {
+    func create(req: Request) async throws -> Vehicle {
         let vehicle = try req.content.decode(Vehicle.self)
-        return vehicle.save(on: req.db).map { vehicle }
+        try await vehicle.save(on: req.db)
+        return vehicle
     }
 
-    func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return Vehicle.find(req.parameters.get("vehicleID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
-            .flatMap { $0.delete(on: req.db) }
-            .transform(to: .ok)
+    func delete(req: Request) async throws -> HTTPStatus {
+        guard let vehicle = try await Vehicle.find(req.parameters.get("vehicleID"), on: req.db) else {
+            throw Abort(.notFound)
+        }
+        try await vehicle.delete(on: req.db)
+        return .ok
     }
 
-    func get(req: Request) throws -> EventLoopFuture<Vehicle> {
-        return Vehicle.find(req.parameters.get("vehicleID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
+    func get(req: Request) async throws -> View {
+        guard let id = req.parameters.get("vehicleID", as: UUID.self) else {
+            throw Abort(.badRequest)
+        }
+        guard let vehicle = try await Vehicle.find(id, on: req.db) else {
+            throw Abort(.notFound)
+        }
+        return try await req.view.render("detalles", ["vehicle": vehicle])
     }
 
-    func update(req: Request) throws -> EventLoopFuture<Vehicle> {
+    func update(req: Request) async throws -> Vehicle {
+        guard let vehicle = try await Vehicle.find(req.parameters.get("vehicleID"), on: req.db) else {
+            throw Abort(.notFound)
+        }
         let input = try req.content.decode(Vehicle.self)
-        return Vehicle.find(req.parameters.get("vehicleID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
-            .flatMap { vehicle in
-                vehicle.marca= input.marca
-                vehicle.modelo = input.modelo
-                vehicle.numeroRuedas = input.numeroRuedas
-                vehicle.tipoCombustible = input.tipoCombustible
-                vehicle.pantallaCentral = input.pantallaCentral
-                vehicle.tamanoPantalla = input.tamanoPantalla
-                return vehicle.save(on: req.db).map { vehicle }
-            }
+        vehicle.marca = input.marca
+        vehicle.modelo = input.modelo
+        vehicle.numeroRuedas = input.numeroRuedas
+        vehicle.tipoCombustible = input.tipoCombustible
+        vehicle.pantallaCentral = input.pantallaCentral
+        vehicle.tamanoPantalla = input.tamanoPantalla
+        try await vehicle.save(on: req.db)
+        return vehicle
     }
 }
